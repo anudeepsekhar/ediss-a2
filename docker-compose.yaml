@@ -1,0 +1,9 @@
+version: '3'
+services:
+  books-bff:
+    build: ./books-bff
+    ports:
+      - "3002:80"
+  books-service:
+    build: ./books-service
+    network_mode: "host"
