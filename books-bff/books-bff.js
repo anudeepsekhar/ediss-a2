@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 // Books Microservice endpoint
-const booksServiceUrl = 'http://localhost:3000';
+const booksServiceUrl = 'http://alb-202734867.us-east-1.elb.amazonaws.com:3000';
 
 function parseJwt (token) {
     return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
@@ -197,6 +197,6 @@ app.put('/books/:isbn', authenticateJWT, async (req, res) => {
           }
     }
   });
-app.listen(3002, () => {
-  console.log('Books BFF is running on http://localhost:3002');
+app.listen(8080, () => {
+  console.log('Books BFF is running on http://localhost:8080');
 });

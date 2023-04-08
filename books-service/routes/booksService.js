@@ -4,12 +4,12 @@ import mysql from "mysql"
 const router = express.Router();
 
 const db = mysql.createConnection({
-    host     : "a1-stack-databasecluster-mjlsua6jvnwf.cluster-ro-cdzfxmkoehy9.us-east-1.rds.amazonaws.com",
-    host     : "localhost",
+    host     : "a2-databasereplicainstance-kgzn5fw5kkcj.cdzfxmkoehy9.us-east-1.rds.amazonaws.com",
+    // host     : "localhost",
     user     : "ediss",
     password : "password",
     port     : 3306,
-    database :"books_db"
+    database :"bookstore"
 })
 
 db.connect((err) => {

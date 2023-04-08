@@ -1,12 +1,13 @@
 import mysql from "mysql"
 
-const db = mysql.createConnection({
-    host     : "a2-databasecluster-rjmu1ljp9l7t.cluster-cdzfxmkoehy9.us-east-1.rds.amazonaws.com",
-    user     : "ediss",
-    password : "password",
-    port     : 3306,
-    // database :"a1-stack-databasecluster-mjlsua6jvnwf"
-})
+const db = mysql.createConnection({                                                                               
+    host     : "a2-databasereplicainstance-kgzn5fw5kkcj.cdzfxmkoehy9.us-east-1.rds.amazonaws.com",                
+    user     : "ediss",                                                                                           
+    password : "password",                                                                                        
+    port     : 3306,                                                                                              
+    database : "bookstore"                                                                                         
+  });
+
 
 db.connect((err) => {
     if (err) {
@@ -26,10 +27,10 @@ const q2 = "CREATE TABLE `books` (`ISBN` varchar(20) COLLATE ascii_bin NOT NULL,
 PRIMARY KEY (`ISBN`),\
 UNIQUE KEY `ISBN` (`ISBN`)\
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin;"
-db.query(q2, (err, data)=>{
-  if(err) return res.json(err);
-  return res.json(data);
-});
+db.query(q2, (err, data)=>{                                                                                       
+  if(err) console.log(err);                                                                                       
+  console.log(data);                                                                                              
+});  
 
 const q3 = "CREATE TABLE `customers` (\
   `id` int NOT NULL AUTO_INCREMENT,\
@@ -46,7 +47,7 @@ const q3 = "CREATE TABLE `customers` (\
   UNIQUE KEY `userId_UNIQUE` (`userId`),\
   UNIQUE KEY `userId` (`userId`)\
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=ascii COLLATE=ascii_bin;"
-db.query(q2, (err, data)=>{
-  if(err) return res.json(err);
-  return res.json(data);
-});
+db.query(q3, (err, data)=>{                                                                                       
+  if(err) console.log(err);                                                                                       
+  console.log(data);                                                                                              
+});   
