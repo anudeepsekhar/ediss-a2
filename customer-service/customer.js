@@ -1,5 +1,5 @@
 import express from "express"
-import customersRouter from './routes/customers.js'
+import customersRouter from './routes/customerService.js'
 
 // require("dotenv").config();
 

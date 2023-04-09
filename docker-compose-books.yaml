@@ -4,10 +4,10 @@ services:
   booksbff:
     environment:
       - HOST_IP=10.0.0.215
-    image: anudeep96/customer-bff # Replace with the image name for your service1
+    image: anudeep96/books-bff # Replace with the image name for your service1
     network_mode: "host" # Bind host port 8080 to container port 80
 
   booksservice:
-    image: anudeep96/customer_service # Replace with the image name for your service2
+    image: anudeep96/books_service # Replace with the image name for your service2
     network_mode: "host"
 
