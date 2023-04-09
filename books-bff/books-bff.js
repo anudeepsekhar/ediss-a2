@@ -7,7 +7,8 @@ app.use(express.json());
 
 // Books Microservice endpoint
 //const booksServiceUrl = 'http://alb-202734867.us-east-1.elb.amazonaws.com:3000';
-const booksServiceUrl = 'http://10.0.0.215:3000';
+const booksServiceUrl = `http://${process.env.HOST_IP}:3000`;
+console.log(booksServiceUrl)
 
 function parseJwt (token) {
     return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
