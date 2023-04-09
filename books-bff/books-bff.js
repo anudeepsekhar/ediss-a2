@@ -160,6 +160,7 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
       // Send request to books microservice to create a new book
       const response = await axios.post(`${booksServiceUrl}/books`, { ISBN, title, Author, description, genre, price, quantity });
       console.log(response.data)
+      var book = response.data
       // if (userAgent && userAgent.includes('Mobile')) {
       //   // Filter books for mobile client
       //   var book = response.data
