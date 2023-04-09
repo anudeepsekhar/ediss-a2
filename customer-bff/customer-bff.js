@@ -53,7 +53,7 @@ const authenticateJWT = (req, res, next) => {
     const userAgent = req.headers['user-agent'];
     console.log(userAgent)
     try {
-      const response = await axios.get(`${customerServiceUrl}/customer/`);
+      const response = await axios.get(`${customerServiceUrl}/customers/`);
       res.json(response.data);
     } catch (error) {
       if (error.response) {
