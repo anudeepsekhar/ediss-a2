@@ -27,7 +27,8 @@ const authenticateJWT = (req, res, next) => {
 
     if (decoded && decoded.sub && ["starlord", "gamora", "drax", "rocket", "groot"].includes(decoded.sub)) {
         console.log(decoded.exp)
-        var dateFormat = new Date(decoded.exp);
+        var dateFormat = new Date(decoded.exp*1000);
+	console.log(dateFormat.getTime())
         console.log(dateFormat.getTime()> currentTimestamp)
 
         if (decoded && decoded.exp && dateFormat.getTime() > currentTimestamp) {
@@ -158,7 +159,7 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
     try {
       // Send request to books microservice to create a new book
       const response = await axios.post(`${booksServiceUrl}/books`, { ISBN, title, Author, description, genre, price, quantity });
-      console.log(response)
+      console.log(response.data)
       if (userAgent && userAgent.includes('Mobile')) {
         // Filter books for mobile client
         var book = response.data
@@ -168,7 +169,7 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
       } else {
         var book = response.data;
       }
-      res.json(book);
+      res.status(201).json(book);
     } catch (error) {
         if (error.response) {
             // The request was made and the server responded with a status code
