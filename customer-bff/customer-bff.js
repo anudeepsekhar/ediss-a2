@@ -26,7 +26,7 @@ const authenticateJWT = (req, res, next) => {
     console.log(currentTimestamp)
 
     if (decoded && decoded.sub && ["starlord", "gamora", "drax", "rocket", "groot"].includes(decoded.sub)) {
-        console.log(decoded.exp)
+        console.log(decoded.exp*1000)
         var dateFormat = new Date(decoded.exp);
         console.log(dateFormat.getTime()> currentTimestamp)
 
@@ -163,17 +163,7 @@ app.get('/customers/', authenticateJWT, async (req, res) => {
       // Send request to books microservice to create a new book
       const response = await axios.post(`${customerServiceUrl}/customers`, { userId, name, phone, address, address2, city, state, zipcode });
       console.log(response)
-      if (userAgent && userAgent.includes('Mobile')) {
-        // Filter books for mobile client
-        var customer = response.data
-        delete customer.address
-        delete customer.address2
-        delete customer.state
-        delete customer.city
-        delete customer.zipcode
-      } else {
-        var customer = response.data;
-      }
+      var customer = response.data;
       res.json(customer);
     } catch (error) {
         if (error.response) {

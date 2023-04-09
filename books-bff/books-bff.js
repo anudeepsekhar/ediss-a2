@@ -161,15 +161,6 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
       const response = await axios.post(`${booksServiceUrl}/books`, { ISBN, title, Author, description, genre, price, quantity });
       console.log(response.data)
       var book = response.data
-      // if (userAgent && userAgent.includes('Mobile')) {
-      //   // Filter books for mobile client
-      //   var book = response.data
-      //   if (book.genre === "non-fiction") {
-      //     book.genre = "3";
-      //   }
-      // } else {
-      //   var book = response.data;
-      // }
       res.status(201).json(book);
     } catch (error) {
         if (error.response) {
@@ -203,12 +194,6 @@ app.put('/books/:isbn', authenticateJWT, async (req, res) => {
       // Send request to books microservice to create a new book
       const response = await axios.put(`${booksServiceUrl}/books/${isbn}`, { ISBN, title, Author, description, genre, price, quantity });
       var book = response.data
-      // if (userAgent && userAgent.includes('Mobile')) {
-      //   // Filter books for mobile client
-      //   if (book.genre === "non-fiction") {
-      //     book.genre = "3";
-      //   }
-      // } 
       res.status(response.status).json(book);
     } catch (error) {
         if (error.response) {
