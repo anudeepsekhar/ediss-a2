@@ -48,9 +48,8 @@ const authenticateJWT = (req, res, next) => {
   app.get('/customer/', authenticateJWT, async (req, res) => {
     const userAgent = req.headers['user-agent'];
     console.log(userAgent)
-    const isbn = req.params.isbn
     try {
-      const response = await axios.get(`${customerServiceUrl}/customer/${isbn}`);
+      const response = await axios.get(`${customerServiceUrl}/customer/`);
       res.json(response.data);
     } catch (error) {
       if (error.response) {
@@ -192,6 +191,6 @@ app.get('/customer/', authenticateJWT, async (req, res) => {
     }
   });
 
-app.listen(80, () => {
+app.listen(81, () => {
   console.log('Customer BFF is running on http://localhost:80');
 });
