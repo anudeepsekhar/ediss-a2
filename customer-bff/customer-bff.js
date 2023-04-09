@@ -80,6 +80,7 @@ app.get('/customers/:id', authenticateJWT, async (req, res) => {
   console.log(userAgent)
   const id = req.params.id
   console.log(`Get from ID ${id}`)
+  console.log(req)
   try {
     const response = await axios.get(`${customerServiceUrl}/customers/${id}`);
     if (userAgent && userAgent.includes('Mobile')) {
@@ -90,7 +91,6 @@ app.get('/customers/:id', authenticateJWT, async (req, res) => {
       delete customer.state
       delete customer.city
       delete customer.zipcode
-      // delete customer.id
     } else {
       var customer = response.data;
     }
@@ -120,6 +120,7 @@ app.get('/customers/', authenticateJWT, async (req, res) => {
     console.log(userAgent)
     const userIdVal = req.query.userId
     console.log(`Get from query ${userIdVal}`)
+    console.log(req)
     try {
       const response = await axios.get(`${customerServiceUrl}/customers/`, {params: {userId:userIdVal}});
       if (userAgent && userAgent.includes('Mobile')) {
@@ -130,11 +131,9 @@ app.get('/customers/', authenticateJWT, async (req, res) => {
         delete customer.state
         delete customer.city
         delete customer.zipcode
-        // delete customer.id
 
       } else {
         var customer = response.data;
-        delete customer.id
       }
       res.json(customer);
     } catch (error) {
