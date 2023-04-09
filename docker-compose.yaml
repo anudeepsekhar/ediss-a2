@@ -1,9 +1,11 @@
 version: '3'
+
 services:
-  books-bff:
-    build: ./books-bff
-    ports:
-      - "3002:80"
-  books-service:
-    build: ./books-service
+  booksbff:
+    image: anudeep96/books-bff # Replace with the image name for your service1
+    network_mode: "host" # Bind host port 8080 to container port 80
+
+  booksservice:
+    image: anudeep96/books_service # Replace with the image name for your service2
     network_mode: "host"
+

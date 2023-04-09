@@ -6,7 +6,8 @@ const app = express();
 app.use(express.json());
 
 // Books Microservice endpoint
-const booksServiceUrl = 'http://alb-202734867.us-east-1.elb.amazonaws.com:3000';
+//const booksServiceUrl = 'http://alb-202734867.us-east-1.elb.amazonaws.com:3000';
+const booksServiceUrl = 'http://10.0.0.215:3000';
 
 function parseJwt (token) {
     return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
@@ -61,11 +62,11 @@ const authenticateJWT = (req, res, next) => {
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);
-          res.status(500).json({ error: 'Internal server error' });
+          res.status(500).json({ error: 'Internal server error no response' });
         } else {
           // Something happened in setting up the request that triggered an Error
           console.log('Error', error.message);
-          res.status(500).json({ error: 'Internal server error' });
+          res.status(500).json({ error: 'Internal server error Something happened in setting up the request that triggered an Error' });
         }
     }
   });
@@ -224,6 +225,6 @@ app.put('/books/:isbn', authenticateJWT, async (req, res) => {
           }
     }
   });
-app.listen(8080, () => {
+app.listen(80, () => {
   console.log('Books BFF is running on http://localhost:8080');
 });
