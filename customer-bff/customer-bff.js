@@ -79,6 +79,7 @@ app.get('/customers/:id', authenticateJWT, async (req, res) => {
   const userAgent = req.headers['user-agent'];
   console.log(userAgent)
   const id = req.params.id
+  console.log(`Get from ID ${id}`)
   try {
     const response = await axios.get(`${customerServiceUrl}/customers/${id}`);
     if (userAgent && userAgent.includes('Mobile')) {
@@ -118,6 +119,7 @@ app.get('/customers/', authenticateJWT, async (req, res) => {
     const userAgent = req.headers['user-agent'];
     console.log(userAgent)
     const userIdVal = req.query.userId
+    console.log(`Get from query ${userIdVal}`)
     try {
       const response = await axios.get(`${customerServiceUrl}/customers/`, {params: {userId:userIdVal}});
       if (userAgent && userAgent.includes('Mobile')) {
@@ -166,7 +168,8 @@ app.get('/customers/', authenticateJWT, async (req, res) => {
     try {
       // Send request to books microservice to create a new book
       const response = await axios.post(`${customerServiceUrl}/customers`, { userId, name, phone, address, address2, city, state, zipcode });
-      console.log(response)
+      console.log(response.data)
+      console.log(response.status)
       var customer = response.data;
       res.status(201).json(customer);
     } catch (error) {
