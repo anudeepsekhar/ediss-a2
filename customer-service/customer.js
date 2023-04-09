@@ -14,6 +14,6 @@ app.get("/", (req, res)=>{
     res.json("this is the backend");
 })
 
-app.listen(80, () => {
+app.listen(3000, () => {
     console.log("Connected to backend!");
 })

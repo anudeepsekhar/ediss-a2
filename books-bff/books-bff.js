@@ -229,6 +229,6 @@ app.put('/books/:isbn', authenticateJWT, async (req, res) => {
           }
     }
   });
-app.listen(80, () => {
-  console.log('Books BFF is running on http://localhost:8080');
+app.listen(82, () => {
+  console.log('Books BFF is running on http://localhost:82');
 });
