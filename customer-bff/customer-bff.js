@@ -164,7 +164,7 @@ app.get('/customers/', authenticateJWT, async (req, res) => {
       const response = await axios.post(`${customerServiceUrl}/customers`, { userId, name, phone, address, address2, city, state, zipcode });
       console.log(response)
       var customer = response.data;
-      res.json(customer);
+      res.status(200).json(customer);
     } catch (error) {
         if (error.response) {
             // The request was made and the server responded with a status code
