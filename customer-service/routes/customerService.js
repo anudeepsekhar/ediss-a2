@@ -19,13 +19,13 @@ db.connect((err) => {
     console.log('Connected to customers database!');
   });
 
-  router.get("/", (req, res)=>{
-    const q = "SELECT * FROM customers"
-    db.query(q, (err, data)=>{
-        if(err) return res.json(err);
-        return res.json(data);
-    });
-})
+//   router.get("/", (req, res)=>{
+//     const q = "SELECT * FROM customers"
+//     db.query(q, (err, data)=>{
+//         if(err) return res.json(err);
+//         return res.json(data);
+//     });
+// })
 
   router.post("/", (req, res)=>{
     const q = "INSERT INTO customers (`id`,`userId`,`name`,`phone`,`address`,`address2`,`city`,`state`,`zipcode`) VALUES (?)"
