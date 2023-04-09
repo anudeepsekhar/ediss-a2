@@ -49,31 +49,31 @@ const authenticateJWT = (req, res, next) => {
     res.json("this is the customer backend");
 })
 
-  app.get('/customers/', authenticateJWT, async (req, res) => {
-    const userAgent = req.headers['user-agent'];
-    console.log(userAgent)
-    try {
-      const response = await axios.get(`${customerServiceUrl}/customers/`);
-      res.json(response.data);
-    } catch (error) {
-      if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          res.status(error.response.status).json(error.response.data);
+  // app.get('/customers/', authenticateJWT, async (req, res) => {
+  //   const userAgent = req.headers['user-agent'];
+  //   console.log(userAgent)
+  //   try {
+  //     const response = await axios.get(`${customerServiceUrl}/customers/`);
+  //     res.json(response.data);
+  //   } catch (error) {
+  //     if (error.response) {
+  //         // The request was made and the server responded with a status code
+  //         // that falls out of the range of 2xx
+  //         console.log(error.response.data);
+  //         console.log(error.response.status);
+  //         res.status(error.response.status).json(error.response.data);
   
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-          res.status(500).json({ error: 'Internal server error no response' });
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log('Error', error.message);
-          res.status(500).json({ error: 'Internal server error Something happened in setting up the request that triggered an Error' });
-        }
-    }
-  });
+  //       } else if (error.request) {
+  //         // The request was made but no response was received
+  //         console.log(error.request);
+  //         res.status(500).json({ error: 'Internal server error no response' });
+  //       } else {
+  //         // Something happened in setting up the request that triggered an Error
+  //         console.log('Error', error.message);
+  //         res.status(500).json({ error: 'Internal server error Something happened in setting up the request that triggered an Error' });
+  //       }
+  //   }
+  // });
   
 app.get('/customers/:id', authenticateJWT, async (req, res) => {
   const userAgent = req.headers['user-agent'];
