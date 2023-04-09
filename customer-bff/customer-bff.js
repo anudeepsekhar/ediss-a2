@@ -27,7 +27,7 @@ const authenticateJWT = (req, res, next) => {
 
     if (decoded && decoded.sub && ["starlord", "gamora", "drax", "rocket", "groot"].includes(decoded.sub)) {
         console.log(decoded.exp*1000)
-        var dateFormat = new Date(decoded.exp);
+        var dateFormat = new Date(decoded.exp*1000);
         console.log(dateFormat.getTime()> currentTimestamp)
 
         if (decoded && decoded.exp && dateFormat.getTime() > currentTimestamp) {
