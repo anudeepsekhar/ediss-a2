@@ -86,7 +86,7 @@ app.get('/books/:isbn', authenticateJWT, async (req, res) => {
       // Filter books for mobile client
       var book = response.data
       if (book.genre === "non-fiction") {
-        book.genre = "3";
+        book.genre = 3;
       }
     } else {
       var book = response.data;
@@ -122,7 +122,7 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
         // Filter books for mobile client
         var book = response.data
         if (book.genre === "non-fiction") {
-          book.genre = "3";
+          book.genre = 3;
         }
       } else {
         var book = response.data;
