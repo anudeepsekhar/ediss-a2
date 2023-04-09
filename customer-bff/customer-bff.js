@@ -80,7 +80,7 @@ app.get('/customers/:id', authenticateJWT, async (req, res) => {
   console.log(userAgent)
   const id = req.params.id
   console.log(`Get from ID ${id}`)
-  console.log(req)
+  // console.log(req)
   try {
     const response = await axios.get(`${customerServiceUrl}/customers/${id}`);
     if (userAgent && userAgent.includes('Mobile')) {
@@ -115,14 +115,15 @@ app.get('/customers/:id', authenticateJWT, async (req, res) => {
   }
 });
 
-app.get('/customers/', authenticateJWT, async (req, res) => {
+app.get('/customers', authenticateJWT, async (req, res) => {
     const userAgent = req.headers['user-agent'];
     console.log(userAgent)
     const userIdVal = req.query.userId
     console.log(`Get from query ${userIdVal}`)
-    console.log(req)
+    // console.log(req)
     try {
-      const response = await axios.get(`${customerServiceUrl}/customers/`, {params: {userId:userIdVal}});
+      const response = await axios.get(`${customerServiceUrl}/customers`, {params: {userId:userIdVal}});
+      console.log(response.data)
       if (userAgent && userAgent.includes('Mobile')) {
         // Filter books for mobile client
         var customer = response.data
