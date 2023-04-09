@@ -89,6 +89,7 @@ app.get('/customers/:id', authenticateJWT, async (req, res) => {
       delete customer.state
       delete customer.city
       delete customer.zipcode
+      delete customer.id
     } else {
       var customer = response.data;
     }
