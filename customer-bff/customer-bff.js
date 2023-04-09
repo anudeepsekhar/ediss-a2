@@ -49,7 +49,7 @@ const authenticateJWT = (req, res, next) => {
     res.json("this is the customer backend");
 })
 
-  app.get('/customer/', authenticateJWT, async (req, res) => {
+  app.get('/customers/', authenticateJWT, async (req, res) => {
     const userAgent = req.headers['user-agent'];
     console.log(userAgent)
     try {
@@ -75,12 +75,12 @@ const authenticateJWT = (req, res, next) => {
     }
   });
   
-app.get('/customer/:id', authenticateJWT, async (req, res) => {
+app.get('/customers/:id', authenticateJWT, async (req, res) => {
   const userAgent = req.headers['user-agent'];
   console.log(userAgent)
   const id = req.params.id
   try {
-    const response = await axios.get(`${booksServiceUrl}/customer/${id}`);
+    const response = await axios.get(`${customerServiceUrl}/customers/${id}`);
     if (userAgent && userAgent.includes('Mobile')) {
       // Filter books for mobile client
       var customer = response.data
@@ -113,12 +113,12 @@ app.get('/customer/:id', authenticateJWT, async (req, res) => {
   }
 });
 
-app.get('/customer/', authenticateJWT, async (req, res) => {
+app.get('/customers/', authenticateJWT, async (req, res) => {
     const userAgent = req.headers['user-agent'];
     console.log(userAgent)
     const userIdVal = req.query.userId
     try {
-      const response = await axios.get(`${booksServiceUrl}/customer/`, {params: {userId:userIdVal}});
+      const response = await axios.get(`${customerServiceUrl}/customers/`, {params: {userId:userIdVal}});
       if (userAgent && userAgent.includes('Mobile')) {
         // Filter books for mobile client
         var customer = response.data
@@ -151,7 +151,7 @@ app.get('/customer/', authenticateJWT, async (req, res) => {
     }
   });
 
-  app.post('/customer', authenticateJWT, async (req, res) => {
+  app.post('/customers', authenticateJWT, async (req, res) => {
     const { userId, name, phone, address, address2, city, state, zipcode } = req.body;
     const userAgent = req.headers['user-agent'];
     // Perform validation on request body
@@ -161,7 +161,7 @@ app.get('/customer/', authenticateJWT, async (req, res) => {
   
     try {
       // Send request to books microservice to create a new book
-      const response = await axios.post(`${booksServiceUrl}/customer`, { userId, name, phone, address, address2, city, state, zipcode });
+      const response = await axios.post(`${customerServiceUrl}/customers`, { userId, name, phone, address, address2, city, state, zipcode });
       console.log(response)
       if (userAgent && userAgent.includes('Mobile')) {
         // Filter books for mobile client
