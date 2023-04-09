@@ -192,5 +192,5 @@ app.get('/customer/', authenticateJWT, async (req, res) => {
   });
 
 app.listen(81, () => {
-  console.log('Customer BFF is running on http://localhost:80');
+  console.log('Customer BFF is running on http://localhost:81');
 });

@@ -48,9 +48,8 @@ const authenticateJWT = (req, res, next) => {
   app.get('/books/', authenticateJWT, async (req, res) => {
     const userAgent = req.headers['user-agent'];
     console.log(userAgent)
-    const isbn = req.params.isbn
     try {
-      const response = await axios.get(`${booksServiceUrl}/books/${isbn}`);
+      const response = await axios.get(`${booksServiceUrl}/books/`);
       res.json(response.data);
     } catch (error) {
       if (error.response) {
