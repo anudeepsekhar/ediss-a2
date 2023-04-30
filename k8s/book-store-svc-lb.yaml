@@ -10,7 +10,7 @@ spec:
   type: LoadBalancer
 
   ports:
-  - name: book-store-svc-lb
+  - name: http
     protocol: TCP
     port: 80
     targetPort: 3000
