@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  book-store-deploy-books-service
+  namespace: book-store-ns
+spec:
+  selector:
+    matchLabels:
+      app: book-store-deploy-books-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  book-store-deploy-books-service
+    spec:
+      containers:
+        - name: book-store-deploy-books-service
+          image: anudeep96/books_service
+          ports:
+            - containerPort: 80
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "kubernetes.io/hostname"
+              labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                      - book-store-deploy-books-service

@@ -1,0 +1,15 @@
+{
+  "name": "extras",
+  "version": "1.0.0",
+  "description": "",
+  "main": "clear_db.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: book-store-svc-lb
+  namespace: book-store-ns
+spec:
+  selector:
+    app: book-store-svc-lb
+
+  type: LoadBalancer
+
+  ports:
+  - name: book-store-svc-lb
+    protocol: TCP
+    port: 80
+    targetPort: 3000
