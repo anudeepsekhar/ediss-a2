@@ -1,15 +1,7 @@
-FROM node:14-alpine
-
+FROM node:latest
 WORKDIR /app
-
 COPY package*.json ./
-
 RUN npm install
-
 COPY . .
-
-ENV NODE_ENV=production
-
 EXPOSE 5000
-
-CMD ["/bin/sh"]
+CMD [ "npm", "start" ]
