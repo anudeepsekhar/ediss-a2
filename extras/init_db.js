@@ -1,6 +1,6 @@
 import mysql from "mysql"
 
-const AWS_RDS_HOST = "a3-databasereplicainstance-towmnpstiycy.cdzfxmkoehy9.us-east-1.rds.amazonaws.com"
+const AWS_RDS_HOST = "a3-databasereplicainstance-tpozeaiebnba.cdzfxmkoehy9.us-east-1.rds.amazonaws.com"
 
 const connection = mysql.createConnection({
   host     : AWS_RDS_HOST,
