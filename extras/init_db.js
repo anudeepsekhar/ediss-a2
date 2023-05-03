@@ -1,6 +1,6 @@
 import mysql from "mysql"
 
-const AWS_RDS_HOST = "a3-databasereplicainstance-tpozeaiebnba.cdzfxmkoehy9.us-east-1.rds.amazonaws.com"
+const AWS_RDS_HOST = "a3-databaseprimaryinstance-nwam0yoj4nbs.cdzfxmkoehy9.us-east-1.rds.amazonaws.com"
 
 const connection = mysql.createConnection({
   host     : AWS_RDS_HOST,
@@ -26,8 +26,28 @@ connection.connect((error) => {
         if (error) {
           throw error;
         }
-        console.log('Created database "bookstore"');
-        const q2 = "CREATE TABLE `books` (`ISBN` varchar(20) COLLATE ascii_bin NOT NULL,\
+      console.log('Created database "bookstore"');
+      });
+    } else {
+      console.log('Database "bookstore" already exists');
+      connection.end();
+      try{
+        const db = mysql.createConnection({                                                                               
+          host     : "a3-databaseprimaryinstance-nwam0yoj4nbs.cdzfxmkoehy9.us-east-1.rds.amazonaws.com",                
+          user     : "ediss",                                                                                           
+          password : "password",                                                                                        
+          port     : 3306,                                                                                              
+          database : "bookstore"                                                                                         
+        });
+        db.connect((err) => {
+            if (err) {
+              console.error('Error connecting to database: ', err);
+              return;
+            }
+            console.log('Connected to books database!');
+          });
+        const q2 = "CREATE TABLE IF NOT EXISTS `books` (\
+                  `ISBN` varchar(20) COLLATE ascii_bin NOT NULL,\
                   `title` varchar(45) COLLATE ascii_bin NOT NULL,\
                   `Author` varchar(45) COLLATE ascii_bin NOT NULL,\
                   `description` varchar(255) COLLATE ascii_bin NOT NULL,\
@@ -37,14 +57,13 @@ connection.connect((error) => {
                   PRIMARY KEY (`ISBN`),\
                   UNIQUE KEY `ISBN` (`ISBN`)\
                   ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin;"
-        connection.query(q2, (error) => {
+                  db.query(q2, (error) => {
           if (error) {
             throw error;
           }
           console.log('Created table "books"');
-          connection.end();
         });
-        const q3 = "CREATE TABLE `customers` (\
+        const q3 = "CREATE TABLE IF NOT EXISTS `customers` (\
           `id` int NOT NULL AUTO_INCREMENT,\
           `userId` varchar(80) COLLATE ascii_bin NOT NULL,\
           `name` varchar(100) COLLATE ascii_bin NOT NULL,\
@@ -60,17 +79,15 @@ connection.connect((error) => {
           UNIQUE KEY `userId` (`userId`)\
         ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=ascii COLLATE=ascii_bin;"
 
-        connection.query(q3, (error) => {
+        db.query(q3, (error) => {
           if (error) {
             throw error;
           }
           console.log('Created table "customers"');
-          connection.end();
         });
-      });
-    } else {
-      console.log('Database "bookstore" already exists');
-      connection.end();
+      } catch(error){
+        console.error('Error occurred: ', error);
+      }
     }
   });
 });
