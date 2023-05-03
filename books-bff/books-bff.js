@@ -7,7 +7,7 @@ app.use(express.json());
 
 // Books Microservice endpoint
 //const booksServiceUrl = 'http://alb-202734867.us-east-1.elb.amazonaws.com:3000';
-const booksServiceUrl = `http://books-backend-service:3000`;
+const booksServiceUrl = `http://books-backend-service.book-store-ns.svc:3000`;
 console.log(booksServiceUrl)
 
 function parseJwt (token) {

@@ -1,32 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: books-backend
+  name: customer-backend
   namespace: book-store-ns
 spec:
   selector:
     matchLabels:
-      app: books-backend
+      app: customer-backend
   replicas: 1
   template:
     metadata:
       labels:
-        app: books-backend
+        app: customer-backend
     spec:
       containers:
-        - name: books-backend
-          image: anudeep96/books-backend:latest
+        - name: customer-backend
+          image: anudeep96/customer-backend:latest
           ports:
             - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: books-backend-service
+  name: customer-backend-service
   namespace: book-store-ns
 spec:
   selector:
-    app: books-backend
+    app: customer-backend
   ports:
     - name: http
       port: 3000
