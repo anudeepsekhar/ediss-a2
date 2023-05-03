@@ -7,7 +7,7 @@ app.use(express.json());
 
 // Books Microservice endpoint
 //const booksServiceUrl = 'http://alb-202734867.us-east-1.elb.amazonaws.com:3000';
-const booksServiceUrl = `http://${process.env.HOST_IP}:3000`;
+const booksServiceUrl = `http://books-backend-service:3000`;
 console.log(booksServiceUrl)
 
 function parseJwt (token) {
@@ -215,5 +215,5 @@ app.put('/books/:isbn', authenticateJWT, async (req, res) => {
     }
   });
 app.listen(82, () => {
-  console.log('Books BFF is running on http://localhost:82');
+  console.log('Books BFF is running on PORT 82');
 });
