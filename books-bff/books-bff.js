@@ -7,7 +7,8 @@ app.use(express.json());
 
 // Books Microservice endpoint
 //const booksServiceUrl = 'http://alb-202734867.us-east-1.elb.amazonaws.com:3000';
-const booksServiceUrl = `http://books-backend-service.book-store-ns.svc:3000`;
+const booksServiceUrl = 'http://books-backend-service.book-store-ns.svc:3000';
+const booksRecomendationURL = 'http://44.214.218.139/recommended-titles/isbn';
 console.log(booksServiceUrl)
 
 function parseJwt (token) {
@@ -110,6 +111,16 @@ app.get('/books/:isbn', authenticateJWT, async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
       }
   }
+});
+
+app.get('/books/:isbn/related-books', authenticateJWT, async (req, res) => {
+  const isbn = req.params.isbn
+  try {
+    const response = await axios.get(`${booksServiceUrl}/books/related-books/${isbn}`);
+  }catch(error){
+    
+  }
+
 });
 
 app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
