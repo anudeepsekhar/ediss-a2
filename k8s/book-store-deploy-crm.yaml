@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: crm
-        image: your-docker-image:tag
+        image: anudeep96/crm-node:latest
 
 apiVersion: v1
 kind: Service
