@@ -51,7 +51,7 @@ router.get("/:isbn", async (req, res)=>{
             type: '_doc', // uncomment this line if you are using {es} ≤ 6
             body: {
                 query: {
-                match: { ISBN: isbn }
+                    match_phrase: { ISBN: isbn }
                 }
             }
         })
@@ -60,11 +60,11 @@ router.get("/:isbn", async (req, res)=>{
         if (books.length > 0){
             return res.status(200).json(books)
         }else{
-            res.status(404).end()
+            return res.status(404).end()
         }
     } catch (error) {
         console.error(error)
-        res.status(500).send('Error retrieving books from Elasticsearch')
+        return res.status(500).send('Error retrieving books from Elasticsearch')
     }
 });
 
@@ -81,7 +81,7 @@ router.get("/isbn/:isbn", async (req, res)=>{
             type: '_doc', // uncomment this line if you are using {es} ≤ 6
             body: {
                 query: {
-                match: { ISBN: isbn }
+                    match_phrase: { ISBN: isbn }
                 }
             }
         })
@@ -90,11 +90,11 @@ router.get("/isbn/:isbn", async (req, res)=>{
         if (books.length > 0){
             return res.status(200).json(books)
         }else{
-            res.status(404).end()
+            return res.status(404).end()
         }
     } catch (error) {
         console.error(error)
-        res.status(500).send('Error retrieving books from Elasticsearch')
+        return res.status(500).send('Error retrieving books from Elasticsearch')
     }  
 })
 

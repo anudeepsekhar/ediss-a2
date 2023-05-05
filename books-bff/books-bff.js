@@ -25,17 +25,17 @@ const authenticateJWT = (req, res, next) => {
     const decoded = parseJwt(token)
     // Get the current timestamp in seconds
     const currentTimestamp = Date.now();
-    console.log(currentTimestamp)
+    // console.log(currentTimestamp)
 
     if (decoded && decoded.sub && ["starlord", "gamora", "drax", "rocket", "groot"].includes(decoded.sub)) {
-        console.log(decoded.exp)
+        // console.log(decoded.exp)
         var dateFormat = new Date(decoded.exp*1000);
 	console.log(dateFormat.getTime())
-        console.log(dateFormat.getTime()> currentTimestamp)
+        // console.log(dateFormat.getTime()> currentTimestamp)
 
         if (decoded && decoded.exp && dateFormat.getTime() > currentTimestamp) {
             if (decoded && decoded.iss && decoded.iss === 'cmu.edu') {
-                console.log(`"iss" claim is valid. Value: ${decoded.iss}`);
+                // console.log(`"iss" claim is valid. Value: ${decoded.iss}`);
             } else {
                 return res.status(401).json({ error: 'Forbidden-exp' });
             }
@@ -66,6 +66,8 @@ app.get("/status", (req, res)=>{
     console.log(userAgent)
     try {
       const response = await axios.get(`${booksQueryServiceUrl}/books?keyword=${keyword}`);
+      console.log("Keyword search: ")
+      console.log(keyword)
       res.json(response.data);
     } catch (error) {
       if (error.response) {
@@ -89,7 +91,8 @@ app.get("/status", (req, res)=>{
   
 app.get('/books/:isbn', authenticateJWT, async (req, res) => {
   const userAgent = req.headers['user-agent'];
-  console.log(userAgent)
+  console.log("GET: ")
+  console.log(isbn)
   const isbn = req.params.isbn
   try {
     const response = await axios.get(`${booksQueryServiceUrl}/books/${isbn}`);
@@ -149,7 +152,8 @@ app.get('/books/:isbn/related-books', authenticateJWT, async (req, res) => {
 
 app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
     const userAgent = req.headers['user-agent'];
-    console.log(userAgent)
+    console.log("GET: ")
+    console.log(isbn)
     const isbn = req.params.isbn
     try {
       const response = await axios.get(`${booksQueryServiceUrl}/books/${isbn}`);
@@ -186,7 +190,8 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
   app.post('/cmd/books', authenticateJWT, async (req, res) => {
     const { ISBN, title, Author, description, genre, price, quantity } = req.body;
     const userAgent = req.headers['user-agent'];
-    // Perform validation on request body
+    console.log("POST: ")
+    console.log(ISBN)
     if (!ISBN || !title || !Author || !description || !genre || !price || !quantity) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
@@ -218,7 +223,10 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
   });
 app.put('/cmd/books/:isbn', authenticateJWT, async (req, res) => {
     const isbn = req.params.isbn
+    console.log("PUT: ")
+    console.log(isbn)
     const { ISBN, title, Author, description, genre, price, quantity } = req.body;
+    console.log(ISBN)
     const userAgent = req.headers['user-agent'];
     // Perform validation on request body
     if (!ISBN || !title || !Author || !description || !genre || !price || !quantity) {
