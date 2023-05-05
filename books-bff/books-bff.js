@@ -7,8 +7,8 @@ app.use(express.json());
 
 // Books Microservice endpoint
 //const booksServiceUrl = 'http://alb-202734867.us-east-1.elb.amazonaws.com:3000';
-const booksServiceUrl = 'http://books-backend-service.book-store-ns.svc:3000';
-const booksRecomendationURL = 'http://44.214.218.139/recommended-titles/isbn';
+const booksQueryServiceUrl = 'http://books-query-service.book-store-ns.svc:3000';
+const booksCmdServiceUrl = 'http://books-cmd-service.book-store-ns.svc:3000';
 console.log(booksServiceUrl)
 
 function parseJwt (token) {
@@ -56,10 +56,15 @@ app.get("/status", (req, res)=>{
 })
 
   app.get('/books/', authenticateJWT, async (req, res) => {
+    const { keyword } = req.query;
+    const keywordRegex = /^[a-zA-Z]+$/;
+    if (!keyword || !keywordRegex.test(keyword)) {
+        return res.status(400).send('Keyword parameter must be a single word of letters only');
+    }
     const userAgent = req.headers['user-agent'];
     console.log(userAgent)
     try {
-      const response = await axios.get(`${booksServiceUrl}/books/`);
+      const response = await axios.get(`${booksQueryServiceUrl}/books?keyword=${keyword}`);
       res.json(response.data);
     } catch (error) {
       if (error.response) {
@@ -86,7 +91,7 @@ app.get('/books/:isbn', authenticateJWT, async (req, res) => {
   console.log(userAgent)
   const isbn = req.params.isbn
   try {
-    const response = await axios.get(`${booksServiceUrl}/books/${isbn}`);
+    const response = await axios.get(`${booksQueryServiceUrl}/books/${isbn}`);
     if (userAgent && userAgent.includes('Mobile')) {
       // Filter books for mobile client
       var book = response.data
@@ -120,7 +125,7 @@ app.get('/books/:isbn', authenticateJWT, async (req, res) => {
 app.get('/books/:isbn/related-books', authenticateJWT, async (req, res) => {
   const isbn = req.params.isbn
   try {
-    const response = await axios.get(`${booksServiceUrl}/books/related-books/${isbn}`);
+    const response = await axios.get(`${booksQueryServiceUrl}/books/related-books/${isbn}`);
     console.log(response)
     if (response.status === 200){
       return res.status(200).json(response.data)
@@ -146,7 +151,7 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
     console.log(userAgent)
     const isbn = req.params.isbn
     try {
-      const response = await axios.get(`${booksServiceUrl}/books/${isbn}`);
+      const response = await axios.get(`${booksQueryServiceUrl}/books/${isbn}`);
       if (userAgent && userAgent.includes('Mobile')) {
         // Filter books for mobile client
         var book = response.data
@@ -177,7 +182,7 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
     }
   });
 
-  app.post('/books', authenticateJWT, async (req, res) => {
+  app.post('/cmd/books', authenticateJWT, async (req, res) => {
     const { ISBN, title, Author, description, genre, price, quantity } = req.body;
     const userAgent = req.headers['user-agent'];
     // Perform validation on request body
@@ -187,7 +192,7 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
   
     try {
       // Send request to books microservice to create a new book
-      const response = await axios.post(`${booksServiceUrl}/books`, { ISBN, title, Author, description, genre, price, quantity });
+      const response = await axios.post(`${booksCmdServiceUrl}/cmd/books`, { ISBN, title, Author, description, genre, price, quantity });
       console.log(response.data)
       var book = response.data
       res.status(201).json(book);
@@ -210,7 +215,7 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
           }
     }
   });
-app.put('/books/:isbn', authenticateJWT, async (req, res) => {
+app.put('/cmd/books/:isbn', authenticateJWT, async (req, res) => {
     const isbn = req.params.isbn
     const { ISBN, title, Author, description, genre, price, quantity } = req.body;
     const userAgent = req.headers['user-agent'];
@@ -221,7 +226,7 @@ app.put('/books/:isbn', authenticateJWT, async (req, res) => {
   
     try {
       // Send request to books microservice to create a new book
-      const response = await axios.put(`${booksServiceUrl}/books/${isbn}`, { ISBN, title, Author, description, genre, price, quantity });
+      const response = await axios.put(`${booksCmdServiceUrl}/cmd/books/${isbn}`, { ISBN, title, Author, description, genre, price, quantity });
       var book = response.data
       res.status(response.status).json(book);
     } catch (error) {

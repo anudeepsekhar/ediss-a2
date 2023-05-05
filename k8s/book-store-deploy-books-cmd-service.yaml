@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: books-cmd
+  namespace: book-store-ns
+spec:
+  selector:
+    matchLabels:
+      app: books-cmd
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: books-cmd
+    spec:
+      containers:
+        - name: books-cmd
+          image: anudeep96/books-cmd:latest
+          ports:
+            - containerPort: 3000
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: books-cmd-service
+  namespace: book-store-ns
+spec:
+  selector:
+    app: books-cmd
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP
