@@ -1,7 +1,7 @@
 import mysql from "mysql"
 
 const db = mysql.createConnection({
-    host     : "a3-databaseprimaryinstance-1xqclmtdy8r5.cdzfxmkoehy9.us-east-1.rds.amazonaws.com",
+    host     : "a4-databasereplicainstance-0goerubszq2h.cxbr36apofxu.us-east-1.rds.amazonaws.com",
     user     : "ediss",
     password : "password",
     port     : 3306,

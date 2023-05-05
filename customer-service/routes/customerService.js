@@ -6,7 +6,7 @@ import kafka from 'kafka-node';
 
 const router = express.Router();
 
-const AWS_RDS_HOST = "a3-databaseprimaryinstance-1xqclmtdy8r5.cdzfxmkoehy9.us-east-1.rds.amazonaws.com"
+const AWS_RDS_HOST = "a4-databasereplicainstance-0goerubszq2h.cxbr36apofxu.us-east-1.rds.amazonaws.com"
 const db = mysql.createConnection({
     host     : AWS_RDS_HOST,
     user     : "ediss",

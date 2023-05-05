@@ -5,7 +5,7 @@ import es from '@elastic/elasticsearch'
 
 const router = express.Router();
 
-const client = new es.Client({ node: 'http://54.91.113.5:9200' });
+const client = new es.Client({ node: 'http://34.229.87.233:9200' });
 
 
 router.get("/", async (req, res)=>{
@@ -24,7 +24,8 @@ router.get("/", async (req, res)=>{
                 query: {
                     multi_match: {
                         query: keyword, 
-                        fields: ['title', 'Author', 'description', 'genre']
+                        fields: ['title', 'Author', 'description', 'genre'],
+                        type:'phrase_prefix'
                     }
                 }
             }
