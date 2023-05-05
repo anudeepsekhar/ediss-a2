@@ -2,12 +2,12 @@ import mysql from 'mysql';
 import Client from '@elastic/elasticsearch';
 
 // Set environment variables for the AWS RDS MySQL database and Elasticsearch instance
-const RDS_HOST = process.env.RDS_HOST;
-const RDS_PORT = process.env.RDS_PORT;
-const RDS_DBNAME = process.env.RDS_DBNAME;
-const RDS_USER = process.env.RDS_USER;
-const RDS_PASSWORD = process.env.RDS_PASSWORD;
-const ES_HOST = process.env.ES_HOST;
+const RDS_HOST = "a3-databaseprimaryinstance-1xqclmtdy8r5.cdzfxmkoehy9.us-east-1.rds.amazonaws.com";
+const RDS_PORT = 3306;
+const RDS_DBNAME = "bookstore";
+const RDS_USER = "ediss";
+const RDS_PASSWORD = "password";
+const ES_HOST = "http://34.224.8.168:9200";
 
 // Create Elasticsearch client
 const esClient = new Client({ node: ES_HOST });

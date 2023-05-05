@@ -12,18 +12,5 @@ spec:
           containers:
             - name: sync-container
               image: anudeep96/es-sync:latest
-              env:
-                - name: RDS_HOST
-                  value: a3-databaseprimaryinstance-1xqclmtdy8r5.cdzfxmkoehy9.us-east-1.rds.amazonaws.com
-                - name: RDS_PORT
-                  value: 3306
-                - name: RDS_DBNAME
-                  value: bookstore
-                - name: RDS_USER
-                  value: ediss
-                - name: RDS_PASSWORD
-                  value: password
-                - name: ES_HOST
-                  value: http://34.224.8.168:9200/
               command: ["node", "sync.js"]
           restartPolicy: OnFailure
