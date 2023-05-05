@@ -4,7 +4,7 @@ metadata:
   name: sync-service
   namespace: book-store-ns
 spec:
-  schedule: "*/30 * * * * *"
+  schedule: "*/1 * * * *"
   jobTemplate:
     spec:
       template:
