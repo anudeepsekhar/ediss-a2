@@ -14,6 +14,15 @@ const db = mysql.createConnection({
     port     : 3306,
     database :"bookstore"
 })
+const client = new kafka.KafkaClient({ kafkaHost: '44.214.218.139:9092' });
+const producer = new kafka.Producer(client);
+producer.on('ready', () => {
+    console.log('Producer is ready to send messages');
+});
+
+producer.on('error', (err) => {
+    console.error('Error while initializing producer:', err);
+});
 
 db.connect((err) => {
     if (err) {
@@ -31,12 +40,7 @@ db.connect((err) => {
 //     });
 // })
 
-    const Producer = kafka.Producer;
-    const client = new kafka.KafkaClient({ kafkaHost: '44.214.218.139:9092' });
-    const producer = new Producer(client);
-    const topic = 'abolimer.customer.evt';
-
-  router.post("/", (req, res)=>{
+router.post("/", (req, res)=>{
     const q = "INSERT INTO customers (`id`,`userId`,`name`,`phone`,`address`,`address2`,`city`,`state`,`zipcode`) VALUES (?)"
     const values = [
         null,
@@ -84,33 +88,19 @@ db.connect((err) => {
         console.log(data)
         req.body["id"] = data.insertId
         // nned to send email here
-        producer.on('ready', () => {
-            console.log('Kafka producer is ready');
-          
-            const customer = data;
-            
-            const message = {
-              type: 'CustomerRegistered',
-              data: customer
-            };
-            
-            const payloads = [
-              { topic: topic, messages: JSON.stringify(message) }
-            ];
-          
-            producer.send(payloads, (err, data) => {
-              if (err) {
-                console.error('Failed to send message to Kafka:', err);
-              } else {
-                console.log('Message sent to Kafka:', data);
-              }
-            });
-          });
-          
-          producer.on('error', (err) => {
-            console.error('Error in Kafka producer:', err);
-          });
-        return res.status(201).location("/customers/"+data.insertId).json(req.body)
+        // Send the message to Kafka
+        const topic = 'abolimer.customer.evt';
+        const message = { type: 'CustomerRegistered', data: data };
+        const payloads = [{ topic, messages: JSON.stringify(message) }];
+        producer.send(payloads, (err, data) => {
+            if (err) {
+            console.error('Error while sending message to Kafka:', err);
+            res.status(500).json({ error: 'Error while sending message to Kafka' });
+            } else {
+            console.log('Message sent to Kafka:', data);
+            return res.status(201).location("/customers/"+data.insertId).json(req.body);
+            }
+        });
     });
 })
 

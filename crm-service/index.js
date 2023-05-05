@@ -22,13 +22,15 @@ consumer.on('message', (message) => {
       pass: 'uuetkiatqbaakxdy'
     }
   });
-  
-  const customerEmail = data.data.email;
+  console.log("Received message!")
+  console.log(data)
+  const customerEmail = data.data.userId;
+  console.log(customerEmail)
   const mailOptions = {
     from: 'bookstore@abolimer.com',
     to: customerEmail,
     subject: 'Activate your book store account',
-    text: 'Dear <customer name>, \n Welcome to the Book store created by <your andrew ID>. \nExceptionally this time we won’t ask you to click a link to activate your account.'
+    text: `Dear ${data.data.name}, \n Welcome to the Book store created by abolimer. \nExceptionally this time we won’t ask you to click a link to activate your account.`
   };
   
   transporter.sendMail(mailOptions, (error, info) => {

@@ -50,6 +50,10 @@ const authenticateJWT = (req, res, next) => {
   app.get("/", (req, res)=>{
     res.json("this is the books backend");
 })
+app.get("/status", (res, req)=>{
+  res.setHeader('Content-Type', 'text/plain');
+  res.send('OK');
+})
 
   app.get('/books/', authenticateJWT, async (req, res) => {
     const userAgent = req.headers['user-agent'];

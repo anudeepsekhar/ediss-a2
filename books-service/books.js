@@ -13,6 +13,10 @@ app.use('/books', booksRouter);
 app.get("/", (req, res)=>{
     res.json("this is the books service");
 })
+app.get("/status", (res, req)=>{
+    res.setHeader('Content-Type', 'text/plain');
+    res.send('OK');
+  })
 
 app.listen(3000, () => {
     console.log("Connected to backend!");

@@ -18,6 +18,10 @@ spec:
           image: anudeep96/customer-bff:latest
           ports:
             - containerPort: 81
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 81
 ---
 apiVersion: v1
 kind: Service

@@ -13,6 +13,10 @@ app.use('/customers', customersRouter);
 app.get("/", (req, res)=>{
     res.json("this is the backend");
 })
+app.get("/status", (res, req)=>{
+    res.setHeader('Content-Type', 'text/plain');
+    res.send('OK');
+  })
 
 app.listen(3000, () => {
     console.log("Connected to backend!");
