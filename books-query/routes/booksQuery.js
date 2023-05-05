@@ -5,7 +5,7 @@ import es from '@elastic/elasticsearch'
 
 const router = express.Router();
 
-const client = new es.Client({ node: 'http://34.224.8.168:9200/' });
+const client = new es.Client({ node: 'http://54.91.113.5:9200' });
 
 
 router.get("/", async (req, res)=>{
@@ -19,11 +19,12 @@ router.get("/", async (req, res)=>{
     try{
         const {body} = await client.search({
             index: 'books',
+            type: '_doc',
             body: {
                 query: {
                     multi_match: {
                         query: keyword, 
-                        fields: ['title', 'author', 'description', 'genre']
+                        fields: ['title', 'Author', 'description', 'genre']
                     }
                 }
             }
@@ -47,11 +48,10 @@ router.get("/:isbn", async (req, res)=>{
     try{
         const {body} = await client.search({
             index: 'books',
+            type: '_doc', // uncomment this line if you are using {es} ≤ 6
             body: {
                 query: {
-                    term: {
-                        isbn: isbn
-                    }
+                match: { ISBN: isbn }
                 }
             }
         })
@@ -78,11 +78,10 @@ router.get("/isbn/:isbn", async (req, res)=>{
     try{
         const {body} = await client.search({
             index: 'books',
+            type: '_doc', // uncomment this line if you are using {es} ≤ 6
             body: {
                 query: {
-                    term: {
-                        isbn: isbn
-                    }
+                match: { ISBN: isbn }
                 }
             }
         })
