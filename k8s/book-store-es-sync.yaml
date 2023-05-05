@@ -2,6 +2,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   name: sync-service
+  namespace: book-store-ns
 spec:
   schedule: "*/30 * * * * *"
   jobTemplate:
@@ -24,5 +25,5 @@ spec:
                   value: password
                 - name: ES_HOST
                   value: http://34.224.8.168:9200/
-              command: ["/bin/sh", "-c", "python /path/to/your/sync/script.py"]
+              command: ["node", "sync.js"]
           restartPolicy: OnFailure
