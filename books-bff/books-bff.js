@@ -92,8 +92,9 @@ app.get("/status", (req, res)=>{
 app.get('/books/:isbn', authenticateJWT, async (req, res) => {
   const userAgent = req.headers['user-agent'];
   console.log("GET: ")
-  console.log(isbn)
   const isbn = req.params.isbn
+  console.log(isbn)
+
   try {
     const response = await axios.get(`${booksQueryServiceUrl}/books/${isbn}`);
     if (userAgent && userAgent.includes('Mobile')) {
@@ -105,23 +106,23 @@ app.get('/books/:isbn', authenticateJWT, async (req, res) => {
     } else {
       var book = response.data;
     }
-    res.json(book);
+    return res.json(book);
   } catch (error) {
     if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.log(error.response.data);
         console.log(error.response.status);
-        res.status(error.response.status).json(error.response.data);
+        return res.status(error.response.status).json(error.response.data);
 
       } else if (error.request) {
         // The request was made but no response was received
         console.log(error.request);
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
       } else {
         // Something happened in setting up the request that triggered an Error
         console.log('Error', error.message);
-        res.status(500).json({ error: 'Internal server error' });
+        return res.status(500).json({ error: 'Internal server error' });
       }
   }
 });
@@ -130,7 +131,6 @@ app.get('/books/:isbn/related-books', authenticateJWT, async (req, res) => {
   const isbn = req.params.isbn
   try {
     const response = await axios.get(`${booksQueryServiceUrl}/books/related-books/${isbn}`);
-    console.log(response)
     if (response.status === 200){
       return res.status(200).json(response.data)
     }else{
@@ -153,8 +153,9 @@ app.get('/books/:isbn/related-books', authenticateJWT, async (req, res) => {
 app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
     const userAgent = req.headers['user-agent'];
     console.log("GET: ")
-    console.log(isbn)
     const isbn = req.params.isbn
+    console.log(isbn)
+
     try {
       const response = await axios.get(`${booksQueryServiceUrl}/books/${isbn}`);
       if (userAgent && userAgent.includes('Mobile')) {
@@ -166,23 +167,23 @@ app.get('/books/isbn/:isbn', authenticateJWT, async (req, res) => {
       } else {
         var book = response.data;
       }
-      res.json(book);
+      return res.json(book);
     } catch (error) {
         if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
             console.log(error.response.data);
             console.log(error.response.status);
-            res.status(error.response.status).json(error.response.data);
+            return res.status(error.response.status).json(error.response.data);
 
           } else if (error.request) {
             // The request was made but no response was received
             console.log(error.request);
-            res.status(500).json({ error: 'Internal server error' });
+            return res.status(500).json({ error: 'Internal server error' });
           } else {
             // Something happened in setting up the request that triggered an Error
             console.log('Error', error.message);
-            res.status(500).json({ error: 'Internal server error' });
+            return res.status(500).json({ error: 'Internal server error' });
           }
     }
   });
