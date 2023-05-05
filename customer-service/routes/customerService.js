@@ -1,10 +1,13 @@
 import express from 'express';
 import mysql from "mysql"
+import kafka from 'kafka-node';
+
+
 
 const router = express.Router();
 
 const db = mysql.createConnection({
-    host     : "a3-databaseprimaryinstance-nwam0yoj4nbs.cdzfxmkoehy9.us-east-1.rds.amazonaws.com",
+    host     : "a3-databaseprimaryinstance-1xqclmtdy8r5.cdzfxmkoehy9.us-east-1.rds.amazonaws.com",
     user     : "ediss",
     password : "password",
     port     : 3306,
@@ -26,6 +29,11 @@ db.connect((err) => {
 //         return res.json(data);
 //     });
 // })
+
+    const Producer = kafka.Producer;
+    const client = new kafka.KafkaClient({ kafkaHost: '44.214.218.139:9092' });
+    const producer = new Producer(client);
+    const topic = 'abolimer.customer.evt';
 
   router.post("/", (req, res)=>{
     const q = "INSERT INTO customers (`id`,`userId`,`name`,`phone`,`address`,`address2`,`city`,`state`,`zipcode`) VALUES (?)"
@@ -74,6 +82,33 @@ db.connect((err) => {
         }
         console.log(data)
         req.body["id"] = data.insertId
+        // nned to send email here
+        producer.on('ready', () => {
+            console.log('Kafka producer is ready');
+          
+            const customer = data;
+            
+            const message = {
+              type: 'CustomerRegistered',
+              data: customer
+            };
+            
+            const payloads = [
+              { topic: topic, messages: JSON.stringify(message) }
+            ];
+          
+            producer.send(payloads, (err, data) => {
+              if (err) {
+                console.error('Failed to send message to Kafka:', err);
+              } else {
+                console.log('Message sent to Kafka:', data);
+              }
+            });
+          });
+          
+          producer.on('error', (err) => {
+            console.error('Error in Kafka producer:', err);
+          });
         return res.status(201).location("/customers/"+data.insertId).json(req.body)
     });
 })

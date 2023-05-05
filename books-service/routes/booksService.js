@@ -1,9 +1,11 @@
+import e from 'express';
 import express from 'express';
 import mysql from "mysql"
+import makeRequest from './circuit-breaker.js';
 
 const router = express.Router();
 
-const AWS_RDS_HOST = "a3-databaseprimaryinstance-nwam0yoj4nbs.cdzfxmkoehy9.us-east-1.rds.amazonaws.com"
+const AWS_RDS_HOST = "a3-databaseprimaryinstance-1xqclmtdy8r5.cdzfxmkoehy9.us-east-1.rds.amazonaws.com"
 
 const db = mysql.createConnection({
     host     : AWS_RDS_HOST,
@@ -101,10 +103,43 @@ router.get("/isbn/:isbn", (req, res)=>{
             console.log(data[0])
             return res.status(200).json(data[0])
         }else{
-            res.status(404).end()
+            return res.status(404).end()
         }
     })    
 })
+
+router.get('/related-books/:isbn', (req, res) => {
+    const isbn = req.params.isbn
+    console.log(isbn)
+    try{
+        makeRequest(isbn).then(
+            (data)=> {
+                console.log(data)
+                if (data.length === 0){
+                    return res.status(204).end()
+                }else{
+                    return res.status(200).json(data)
+                }
+            }
+        ).catch(
+            (error)=>{
+                console.error('Error:', error);
+                if (error.status === 504){
+                    return res.status(504).json('circuit open!')
+                } else if (error.status === 503){
+                    return res.status(503).json('its too soon for request!')
+                }else{
+                    return res.status(500).json(error)
+                }
+                  
+            }
+        )
+    }catch(error){
+        console.log(error)
+        return res.status(500).json(error)
+    }
+  
+  });
 
 router.put("/:isbn", (req,res)=>{
     console.log("calling put method..!!")

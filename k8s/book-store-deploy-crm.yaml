@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crm
+  template:
+    metadata:
+      labels:
+        app: crm
+    spec:
+      containers:
+      - name: crm
+        image: your-docker-image:tag
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: crm
+spec:
+  selector:
+    app: crm
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer

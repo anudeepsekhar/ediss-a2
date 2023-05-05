@@ -117,8 +117,22 @@ app.get('/books/:isbn/related-books', authenticateJWT, async (req, res) => {
   const isbn = req.params.isbn
   try {
     const response = await axios.get(`${booksServiceUrl}/books/related-books/${isbn}`);
-  }catch(error){
+    console.log(response)
+    if (response.status === 200){
+      return res.status(200).json(response.data)
+    }else{
+      return res.status(204).end()
+    }
     
+  }catch(error){
+    console.log(error)
+    if (error.response.status === 504){
+      return res.status(504).json('circuit open!')
+    } else if (error.response.status === 503){
+      return res.status(503).json('its too soon for request!')
+    }else{
+      return res.status(500).json(error)
+    }
   }
 
 });
