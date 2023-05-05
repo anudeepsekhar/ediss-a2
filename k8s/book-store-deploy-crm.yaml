@@ -1,28 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crm
+  name: crm-node
+  namespace: book-store-ns
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: crm
+      app: crm-node
+  replicas: 1
   template:
     metadata:
       labels:
-        app: crm
+        app: crm-node
     spec:
       containers:
-      - name: crm
-        image: anudeep96/crm-node:latest
+        - name: crm-node
+          image: anudeep96/crm-node:latest
+          ports:
+            - containerPort: 3000
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: crm
+  name: crm-node
 spec:
   selector:
-    app: crm
+    app: crm-node
   ports:
   - name: http
     port: 80
