@@ -1,10 +1,11 @@
 import express from 'express';
 import makeRequest from './circuit-breaker.js';
-import Client from '@elastic/elasticsearch'
+import es from '@elastic/elasticsearch'
+// const { Client } = require('@elastic/elasticsearch')
 
 const router = express.Router();
 
-const client = new Client({ node: 'http://34.224.8.168:9200/' });
+const client = new es.Client({ node: 'http://34.224.8.168:9200/' });
 
 
 router.get("/", async (req, res)=>{

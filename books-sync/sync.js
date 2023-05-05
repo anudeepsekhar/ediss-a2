@@ -1,5 +1,5 @@
 import mysql from 'mysql';
-import Client from '@elastic/elasticsearch';
+import es from '@elastic/elasticsearch';
 
 // Set environment variables for the AWS RDS MySQL database and Elasticsearch instance
 const RDS_HOST = "a3-databaseprimaryinstance-1xqclmtdy8r5.cdzfxmkoehy9.us-east-1.rds.amazonaws.com";
@@ -10,7 +10,7 @@ const RDS_PASSWORD = "password";
 const ES_HOST = "http://34.224.8.168:9200";
 
 // Create Elasticsearch client
-const esClient = new Client({ node: ES_HOST });
+const esClient = new es.Client({ node: ES_HOST });
 
 // Create MySQL connection
 const connection = mysql.createConnection({
