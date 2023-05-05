@@ -13,7 +13,7 @@ app.use('/books', booksRouter);
 app.get("/", (req, res)=>{
     res.json("this is the books service");
 })
-app.get("/status", (res, req)=>{
+app.get("/status", (req, res)=>{
     res.setHeader('Content-Type', 'text/plain');
     res.send('OK');
   })
