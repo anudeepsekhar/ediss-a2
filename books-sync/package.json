@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@elastic/elasticsearch": "^8.7.0",
+    "@elastic/elasticsearch": "^6.8.8",
     "mysql": "^2.18.1"
   }
 }

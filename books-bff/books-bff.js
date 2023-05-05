@@ -9,7 +9,8 @@ app.use(express.json());
 //const booksServiceUrl = 'http://alb-202734867.us-east-1.elb.amazonaws.com:3000';
 const booksQueryServiceUrl = 'http://books-query-service.book-store-ns.svc:3000';
 const booksCmdServiceUrl = 'http://books-cmd-service.book-store-ns.svc:3000';
-console.log(booksServiceUrl)
+console.log(booksQueryServiceUrl)
+console.log(booksCmdServiceUrl)
 
 function parseJwt (token) {
     return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
