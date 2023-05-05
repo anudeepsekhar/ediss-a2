@@ -7,8 +7,8 @@ let lastFailureTime = null;
 // Constants for timeouts and thresholds
 const TIMEOUT = 3000; // 3 seconds
 const OPEN_THRESHOLD = 60000; // 60 seconds
-// const BOOK_REC_URL = 'http://44.214.218.139/recommended-titles'
-const BOOK_REC_URL = 'http://128.2.24.66:8006/recommended-titles'
+const BOOK_REC_URL = 'http://44.214.218.139/recommended-titles'
+// const BOOK_REC_URL = 'http://128.2.24.66:8006/recommended-titles'
 
 // Function to make a request to the external service
 async function makeRequest(isbn) {
