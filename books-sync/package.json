@@ -1,0 +1,17 @@
+{
+  "name": "books-sync",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sync.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node sync.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.7.0",
+    "mysql": "^2.18.1"
+  }
+}
