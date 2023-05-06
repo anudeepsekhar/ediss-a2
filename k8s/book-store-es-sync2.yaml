@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: sync-service
+  name: sync-service2
   namespace: book-store-ns
 spec:
   schedule: "*/1 * * * *"
@@ -10,7 +10,7 @@ spec:
       template:
         spec:
           containers:
-            - name: sync-container
+            - name: sync-container2
               image: anudeep96/es-sync:latest
               command: ["node", "sync.js"]
           restartPolicy: OnFailure
