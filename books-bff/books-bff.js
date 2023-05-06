@@ -138,7 +138,7 @@ app.get('/books/:isbn/related-books', authenticateJWT, async (req, res) => {
     }
     
   }catch(error){
-    console.log(error)
+    // console.log(error)
     if (error.response.status === 504){
       return res.status(504).json('circuit open!')
     } else if (error.response.status === 503){
