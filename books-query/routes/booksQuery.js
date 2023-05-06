@@ -5,7 +5,7 @@ import es from '@elastic/elasticsearch'
 
 const router = express.Router();
 
-const client = new es.Client({ node: 'http://34.229.87.233:9200' });
+const client = new es.Client({ node: 'http://18.209.23.162:9200' });
 
 
 router.get("/", async (req, res)=>{

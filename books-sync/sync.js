@@ -9,7 +9,7 @@ const RDS_USER = "ediss";
 const RDS_PASSWORD = "password";
 
 // Create Elasticsearch client
-const client = new es.Client({node:"http://34.229.87.233:9200"})
+const client = new es.Client({node:"http://18.209.23.162:9200"})
 
 // Create MySQL connection
 const connection = mysql.createConnection({
@@ -28,25 +28,24 @@ connection.connect((err) => {
 });
 for (let t = 0; t < 20; t++) {
   const start = Date.now();
-  // Use the connection object to execute queries
+
   connection.query('SELECT * FROM books', async (error, results, fields) => {
     if (error) throw error;
 
-    await client.deleteByQuery({
-        index: 'books',
-        type: '_doc', // uncomment this line if you are using {es} ≤ 6
-        body: {
-            query: {
-              match_all: {}
-            }
-        }
-    })
+    // await client.deleteByQuery({
+    //     index: 'books',
+    //     type: '_doc', // uncomment this line if you are using {es} ≤ 6
+    //     body: {
+    //         query: {
+    //           match_all: {}
+    //         }
+    //     }
+    // })
 
-    // Loop over the results and index each one to Elasticsearch
     for (let i = 0; i < results.length; i++) {
       const result = results[i];
       console.log(result.ISBN)
-      // Index the result to Elasticsearch
+
       await client.update({
         index: 'books',
         type: '_doc',
@@ -64,6 +63,4 @@ for (let t = 0; t < 20; t++) {
   const end = Date.now();
   console.log(`Execution time: ${end - start} ms`);
 }
-
-// Don't forget to close the connection when you're done
 connection.end();

@@ -30,7 +30,7 @@ const authenticateJWT = (req, res, next) => {
     if (decoded && decoded.sub && ["starlord", "gamora", "drax", "rocket", "groot"].includes(decoded.sub)) {
         // console.log(decoded.exp)
         var dateFormat = new Date(decoded.exp*1000);
-	console.log(dateFormat.getTime())
+	// console.log(dateFormat.getTime())
         // console.log(dateFormat.getTime()> currentTimestamp)
 
         if (decoded && decoded.exp && dateFormat.getTime() > currentTimestamp) {
@@ -68,23 +68,23 @@ app.get("/status", (req, res)=>{
       const response = await axios.get(`${booksQueryServiceUrl}/books?keyword=${keyword}`);
       console.log("Keyword search: ")
       console.log(keyword)
-      res.json(response.data);
+      return res.json(response.data);
     } catch (error) {
       if (error.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
           console.log(error.response.data);
           console.log(error.response.status);
-          res.status(error.response.status).json(error.response.data);
+          return res.status(error.response.status).json(error.response.data);
   
         } else if (error.request) {
           // The request was made but no response was received
           console.log(error.request);
-          res.status(500).json({ error: 'Internal server error no response' });
+          return res.status(500).json({ error: 'Internal server error no response' });
         } else {
           // Something happened in setting up the request that triggered an Error
           console.log('Error', error.message);
-          res.status(500).json({ error: 'Internal server error Something happened in setting up the request that triggered an Error' });
+          return res.status(500).json({ error: 'Internal server error Something happened in setting up the request that triggered an Error' });
         }
     }
   });
@@ -227,7 +227,7 @@ app.put('/cmd/books/:isbn', authenticateJWT, async (req, res) => {
     console.log("PUT: ")
     console.log(isbn)
     const { ISBN, title, Author, description, genre, price, quantity } = req.body;
-    console.log(ISBN)
+    console.log(req.body)
     const userAgent = req.headers['user-agent'];
     // Perform validation on request body
     if (!ISBN || !title || !Author || !description || !genre || !price || !quantity) {
